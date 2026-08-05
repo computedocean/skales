@@ -34,6 +34,34 @@ app.on('second-instance', () => {
   }
 });
 
+// ─── Outdated-source notice ───────────────────────────────────────────────────
+// The source in this repository is the v7 tree, last current in March 2026.
+// Anyone who starts it from source is told once per launch and is offered the
+// current release. It is a notice, not a lock: nothing here disables the app.
+const RELEASES_URL = 'https://github.com/skalesapp/skales/releases';
+
+function showOutdatedSourceNotice() {
+  try {
+    dialog
+      .showMessageBox({
+        type: 'info',
+        title: 'Skales',
+        message: 'This source snapshot (v7) is outdated.',
+        detail:
+          'It reflects Skales v7 (version 7.1.0), last current in March 2026.\n' +
+          'Skales continues as binary releases only.',
+        buttons: ['Get the current release', 'Continue anyway'],
+        defaultId: 0,
+        cancelId: 1,
+        noLink: true,
+      })
+      .then(({ response }) => {
+        if (response === 0) shell.openExternal(RELEASES_URL);
+      })
+      .catch(() => { /* a notice must never hold up the launch */ });
+  } catch { /* same */ }
+}
+
 // ─── Port detection ───────────────────────────────────────────────────────────
 // Try preferred ports in order; resolve with the first available one.
 // Range starts at 3000 and extends to 3009 so multiple Skales instances
@@ -725,6 +753,7 @@ app.on('ready', async () => {
   sendTelemetry('app_start');
 
   showSplash();
+  showOutdatedSourceNotice();
   createTray(() => mainWindow, app, () => PORT);
   setupUpdater(() => mainWindow);
   try {
