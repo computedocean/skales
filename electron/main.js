@@ -48,7 +48,8 @@ function showOutdatedSourceNotice() {
         title: 'Skales',
         message: 'This source snapshot (v7) is outdated.',
         detail:
-          'It reflects Skales v7 (version 7.1.0), last current in March 2026.\n' +
+          'It reflects Skales v7 (version 7.1.0), last current in March 2026,\n' +
+          'with a single security fix since (July 2026).\n' +
           'Skales continues as binary releases only.',
         buttons: ['Get the current release', 'Continue anyway'],
         defaultId: 0,
